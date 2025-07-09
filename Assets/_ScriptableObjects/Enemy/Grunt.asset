@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d45bcec5ec20dd744881f9be1f088113, type: 3}
+  m_Name: Grunt
+  m_EditorClassIdentifier: 
+  enemyName: grunt
+  enemySprite: {fileID: 1228516337, guid: f9f8849d96b34e9408492525c9b99a25, type: 3}
+  stats: {fileID: 11400000, guid: fde8c95e97ff2fe4fbf47c156b7c629d, type: 2}
+  movementType: 2
+  speed: 3
+  projectilePrefab: {fileID: 8020040561039067568, guid: 14e4d75c941229540ab1cbf6609d0355, type: 3}
+  fireRate: 2

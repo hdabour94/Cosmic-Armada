@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: d45bcec5ec20dd744881f9be1f088113
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - enemySprite: {instanceID: 0}
+  - stats: {fileID: 11400000, guid: fde8c95e97ff2fe4fbf47c156b7c629d, type: 2}
+  - projectilePrefab: {fileID: 8020040561039067568, guid: 5d39b5fb4363b3e4d8a0f4a0fc613060, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
