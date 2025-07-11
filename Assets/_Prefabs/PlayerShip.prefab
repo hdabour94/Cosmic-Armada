@@ -179,7 +179,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controlType: 1
-  moveSpeed: 20
+  moveSpeed: 50
 --- !u!114 &2855256972842518354
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -13,6 +13,20 @@ public class EnemyAI : MonoBehaviour
     private Vector3 startPos;
     private float nextFireTime;
 
+
+    public void Initialize(EnemyData_SO data)
+    {
+        this.enemyData = data;
+
+        // تطبيق البيانات فورًا
+        GetComponent<SpriteRenderer>().sprite = enemyData.enemySprite;
+        GetComponent<StatsManager>().Initialize(enemyData.stats); // ستحتاج لإضافة هذه الدالة أيضًا!
+
+        playerTransform = GameObject.FindGameObjectWithTag("Player")?.transform;
+        startPos = transform.position;
+        nextFireTime = Time.time + Random.Range(0, enemyData.fireRate);
+    }
+    
     void Start()
     {
         // تطبيق البيانات من الـ ScriptableObject
@@ -26,6 +40,10 @@ public class EnemyAI : MonoBehaviour
 
     void Update()
     {
+        if (enemyData == null)
+    {
+        return; 
+    }
         HandleMovement();
         HandleShooting();
     }
@@ -44,6 +62,7 @@ public class EnemyAI : MonoBehaviour
                 break;
 
             case EnemyMovementType.Chaser:
+                // <<< تحسين: تحقق إذا كان اللاعب لا يزال موجودًا
                 if (playerTransform != null)
                 {
                     Vector3 direction = (playerTransform.position - transform.position).normalized;
@@ -51,7 +70,7 @@ public class EnemyAI : MonoBehaviour
                 }
                 else
                 {
-                    // إذا دُمر اللاعب، تحرك لأسفل
+                    // السلوك البديل: تحرك للأسفل
                     transform.Translate(Vector2.down * enemyData.speed * Time.deltaTime);
                 }
                 break;
@@ -67,18 +86,7 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
-    public void Initialize(EnemyData_SO data)
-    {
-        this.enemyData = data;
-
-        // تطبيق البيانات فورًا
-        GetComponent<SpriteRenderer>().sprite = enemyData.enemySprite;
-        GetComponent<StatsManager>().Initialize(enemyData.stats); // ستحتاج لإضافة هذه الدالة أيضًا!
-
-        playerTransform = GameObject.FindGameObjectWithTag("Player")?.transform;
-        startPos = transform.position;
-        nextFireTime = Time.time + Random.Range(0, enemyData.fireRate);
-    }
+    
 
     
 }

@@ -1,10 +1,13 @@
 using System.Collections;
 using UnityEngine;
-
+[RequireComponent(typeof(StatsManager))]
+[RequireComponent(typeof(SpriteRenderer))]
 public class FormationEnemyAI : MonoBehaviour
 {
     private enum State { InFormation, Attacking, Returning }
     private State currentState;
+
+    private EnemyData_SO enemyData;
 
     [Header("Settings")]
     [SerializeField] private float attackDuration = 2f; // مدة ملاحقة اللاعب
@@ -15,23 +18,40 @@ public class FormationEnemyAI : MonoBehaviour
     private Transform playerTransform;
     private StatsManager stats;
     private FormationController formationController;
+    
+
+public void Initialize(EnemyData_SO data)
+    {
+        this.enemyData = data;
+
+        // تطبيق البيانات فورًا
+        GetComponent<SpriteRenderer>().sprite = enemyData.enemySprite;
+        GetComponent<StatsManager>().Initialize(enemyData.stats); // ستحتاج لإضافة هذه الدالة أيضًا!
+
+        playerTransform = GameObject.FindGameObjectWithTag("Player")?.transform;        
+    }
 
     void Awake()
     {
         stats = GetComponent<StatsManager>();
+        // ملاحظة: StatsManager يجب أن يتمكن من أخذ SO وتطبيقه أيضًا
+
+      
         stats.OnDie.AddListener(OnDeath);
     }
 
     void Start()
     {
+                GetComponent<SpriteRenderer>().sprite = enemyData.enemySprite;
+
         playerTransform = GameObject.FindGameObjectWithTag("Player")?.transform;
         currentState = State.InFormation;
     }
 
-    public void AssignToPoint(Transform point)
+     public void AssignToPoint(Transform point, FormationController controller)
     {
         this.formationPoint = point;
-        this.formationController = point.GetComponentInParent<FormationController>();
+        this.formationController = controller; // تعيين مباشر
     }
 
     void Update()
@@ -81,9 +101,9 @@ public class FormationEnemyAI : MonoBehaviour
         currentState = State.Returning;
     }
 
+    
     private void OnDeath()
     {
-        // أخبر قائد السرب بأنك مت
         if (formationController != null)
         {
             formationController.RemoveEnemy(this);

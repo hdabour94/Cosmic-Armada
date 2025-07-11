@@ -10,17 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b44e0dc00b1c7c841b22cd7a25dbb975, type: 3}
-  m_Name: wave1
+  m_Name: 0
   m_EditorClassIdentifier: 
   enemiesToSpawn:
-  - enemyData: {fileID: 11400000, guid: d1ea9a34484dd094bb1d398f27dcd0f6, type: 2}
-    delayBeforeSpawn: 0
-  - enemyData: {fileID: 11400000, guid: d1ea9a34484dd094bb1d398f27dcd0f6, type: 2}
-    delayBeforeSpawn: 0
-  - enemyData: {fileID: 11400000, guid: d1ea9a34484dd094bb1d398f27dcd0f6, type: 2}
-    delayBeforeSpawn: 0
-  - enemyData: {fileID: 11400000, guid: d1ea9a34484dd094bb1d398f27dcd0f6, type: 2}
-    delayBeforeSpawn: 0
   - enemyData: {fileID: 11400000, guid: d1ea9a34484dd094bb1d398f27dcd0f6, type: 2}
     delayBeforeSpawn: 0
   - enemyData: {fileID: 11400000, guid: d1ea9a34484dd094bb1d398f27dcd0f6, type: 2}

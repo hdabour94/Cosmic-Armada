@@ -89,26 +89,24 @@ public class StatsManager : MonoBehaviour
 
     public void Die()
     {
-        // استدعاء جميع الدوال المرتبطة بحدث الموت
         OnDie?.Invoke();
-
-        // إزالة جميع المستمعين لمنع استدعائهم مرة أخرى عن طريق الخطأ
         OnDie.RemoveAllListeners();
 
         if (isPlayer)
         {
-            // منطق موت اللاعب (مثل عرض شاشة "Game Over" وتعطيل الكائن)
-            // GameManager.Instance.EndLevel(false);
-            gameObject.SetActive(false); // هذا جيد للمرحلة الحالية
+            if(GameManager.Instance != null) GameManager.Instance.EndLevel(false);
+            gameObject.SetActive(false);
         }
         else
         {
-            // منطق موت العدو
-            GameManager.Instance?.OnEnemyDestroyed(this.gameObject);
-            Destroy(gameObject);
+            // <<< تحسين: حماية ضد الأخطاء
+            if(GameManager.Instance != null)
+            {
+                GameManager.Instance.OnEnemyDestroyed(this.gameObject);
+            }
+            Destroy(gameObject, 0.1f); // <<< تحسين: تأخير بسيط لإتاحة فرصة لتشغيل مؤثرات الانفجار
         }
     }
-
     private void OnTriggerEnter2D(Collider2D other)
 {
     // هذا الكود سيعمل فقط على الكائن الذي يحمل StatsManager (اللاعب والأعداء)

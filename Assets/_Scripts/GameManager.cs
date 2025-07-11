@@ -21,6 +21,8 @@ public class GameManager : MonoBehaviour
 
     [Header("Spawning")]
     [SerializeField] private Transform[] spawnPoints; // نقاط توليد الأعداء
+    [Tooltip("الـ Prefab الأساسي الذي يحتوي على كل السكربتات اللازمة للعدو")]
+    [SerializeField] private GameObject baseEnemyPrefab; // <<< تحسين: استبدال Resources.Load
 
     [Header("Player State")]
     public int playerLevel = 1;
@@ -37,10 +39,13 @@ public class GameManager : MonoBehaviour
     // عدد الأعداء الذين تم توليدهم في الموجة الحالية
     // ------------------------------------
 
+    // ... (المتغيرات الأخرى) ...
+   
+    
     public void SetCurrentLevel(LevelData_SO levelData)
-{
-    this.currentLevelData = levelData;
-}
+    {
+        this.currentLevelData = levelData;
+    }
     private void Awake()
     {
         if (Instance == null)
@@ -68,6 +73,35 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         InitializeLevel();
+    }
+
+    private GameObject GetEnemyBasePrefab()
+    {
+        // <<< تحسين: الآن نستخدم المتغير المسند من الـ Inspector مباشرة
+        if (baseEnemyPrefab == null)
+        {
+            Debug.LogError("Base Enemy Prefab is not assigned in GameManager Inspector!");
+            return null;
+        }
+        return baseEnemyPrefab;
+    }
+
+    public void EndLevel(bool victory)
+    {
+        if (victory)
+        {
+            Debug.Log("LEVEL COMPLETE! YOU WIN!");
+            // لاحقًا: عرض شاشة النصر
+        }
+        else
+        {
+            Debug.Log("GAME OVER! YOU LOST!");
+            // لاحقًا: عرض شاشة الهزيمة
+        }
+        
+        // <<< تحسين: إيقاف الوقت لتجميد اللعبة عند نهايتها
+        Time.timeScale = 0f;
+        StopAllCoroutines();
     }
 
      // --- دالة جديدة لتوليد وتهيئة اللاعب ---
@@ -129,94 +163,74 @@ public class GameManager : MonoBehaviour
     
     // هذه الدالة الجديدة تجمع بين التوليد والانتظار
     private IEnumerator SpawnAndWaitForWaveToEnd(WaveData_SO waveData)
+{
+    isSpawning = true;
+    
+    // --- منطق السرب (Formation) ---
+    if (waveData.formationPrefab != null)
     {
-        ///
-        // --- منطق السرب الجديد ---
-        if (waveData.formationPrefab != null)
+        Debug.Log("Spawning FORMATION wave: " + waveData.name);
+        
+        // 1. أنشئ قائد السرب
+        GameObject formationObject = Instantiate(waveData.formationPrefab, transform.position, Quaternion.identity);
+        FormationController formationController = formationObject.GetComponent<FormationController>();
+
+        // 2. أنشئ الأعداء اللازمين للتشكيل
+        List<GameObject> spawnedEnemies = new List<GameObject>();
+        foreach (var enemyInfo in waveData.enemiesToSpawn)
         {
-            // 1. أنشئ قائد السرب (التشكيل)
-            //  GameObject formationObject = Instantiate(waveData.formationPrefab, transform.position, Quaternion.identity);
-            GameObject formationObject = Instantiate(waveData.formationPrefab, new Vector3(-25, 40, 0), Quaternion.identity);
-
-            FormationController formationController = formationObject.GetComponent<FormationController>();
-
-            // 2. أنشئ الأعداء اللازمين للتشكيل
-            List<GameObject> spawnedEnemies = new List<GameObject>();
-            foreach (var enemyInfo in waveData.enemiesToSpawn)
-            {
-                // لا نحدد مكان العدو، سنضعه في (0,0,0) مؤقتًا
-                GameObject newEnemy = Instantiate(GetEnemyBasePrefab(), Vector3.zero, Quaternion.identity);
-
-                // تأكد من أن العدو لديه سكربت FormationEnemyAI
-                if (newEnemy.GetComponent<FormationEnemyAI>() == null)
-                {
-                    newEnemy.AddComponent<FormationEnemyAI>();
-                }
-
-                // تهيئة الإحصائيات (إذا لزم الأمر)
-                newEnemy.GetComponent<StatsManager>().Initialize(enemyInfo.enemyData.stats);
-
-                spawnedEnemies.Add(newEnemy);
-                activeEnemies.Add(newEnemy); // أضفهم للقائمة العامة لتتبع نهاية الموجة
-            }
-
-            // 3. عين الأعداء للتشكيل
-            formationController.AssignEnemiesToFormation(spawnedEnemies);
-
-            // الآن انتظر حتى يتم تدمير جميع الأعداء
-            while (activeEnemies.Count > 0)
-            {
-                activeEnemies.RemoveAll(item => item == null);
-                yield return null;
-            }
-
-            // دمر كائن التشكيل بعد انتهاء الموجة
-            Destroy(formationObject);
+            GameObject newEnemy = Instantiate(GetEnemyBasePrefab(), Vector3.zero, Quaternion.identity);
+            
+            // تهيئة السكربتات الضرورية
+            if (newEnemy.GetComponent<FormationEnemyAI>() == null) newEnemy.AddComponent<FormationEnemyAI>();
+            newEnemy.GetComponent<StatsManager>().Initialize(enemyInfo.enemyData.stats);
+            
+            spawnedEnemies.Add(newEnemy);
+            activeEnemies.Add(newEnemy);
         }
-        else // --- المنطق القديم للموجات العشوائية ---
+
+        // 3. عين الأعداء للتشكيل
+        if(formationController != null)
         {
-            // ... (الكود السابق للموجات العشوائية يبقى هنا) ...
-        
-         Debug.Log("Spawning Wave " + (currentWaveIndex + 1));
-        isSpawning = true;
-        
-        // إعادة تعيين عدد الأعداء المولودين للموجة الجديدة
-        waveEnemiesSpawned = waveData.enemiesToSpawn.Length;
+            formationController.AssignEnemiesToFormation(spawnedEnemies);
+        }
+        else
+        {
+            Debug.LogError("The assigned Formation Prefab is missing the FormationController script!");
+        }
+    }
+    // --- منطق الموجات العشوائية (الحل للخطأ) ---
+    else
+    {
+        Debug.Log("Spawning RANDOM wave: " + waveData.name);
 
         foreach (var enemyInfo in waveData.enemiesToSpawn)
         {
             yield return new WaitForSeconds(enemyInfo.delayBeforeSpawn);
             Transform randomSpawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)];
             
-            // قمنا بتغيير طفيف هنا لتسهيل إضافة العدو للقائمة
-            GameObject enemyObject = GetEnemyBasePrefab(); // احصل على الـ Prefab
-            GameObject newEnemy = Instantiate(enemyObject, randomSpawnPoint.position, Quaternion.identity);
+            GameObject newEnemy = Instantiate(GetEnemyBasePrefab(), randomSpawnPoint.position, Quaternion.identity);
             
+            // استخدم EnemyAI العادي هنا وليس FormationEnemyAI
+            if (newEnemy.GetComponent<EnemyAI>() == null) newEnemy.AddComponent<EnemyAI>();
             newEnemy.GetComponent<EnemyAI>().Initialize(enemyInfo.enemyData);
             
-            // أضف العدو الجديد إلى قائمتنا لتتبعه
             activeEnemies.Add(newEnemy);
         }
-
-        isSpawning = false;
-        Debug.Log("Wave " + (currentWaveIndex + 1) + " finished spawning. Now waiting for completion...");
-
-        // --- الجزء الجديد: حلقة الانتظار ---
-        while (activeEnemies.Count > 0)
-        {
-            // قم بتنظيف القائمة من أي أعداء تم تدميرهم (إذا حدث خطأ ما ولم يتم إزالتهم)
-            activeEnemies.RemoveAll(item => item == null);
-            
-            // انتظر إطارًا واحدًا ثم تحقق مرة أخرى
-            yield return null; 
-        }
-
-        Debug.Log("Wave " + (currentWaveIndex + 1) + " COMPLETED!");
     }
 
-        /// 
-       
+    isSpawning = false;
+    Debug.Log("Wave finished spawning. Waiting for all enemies to be defeated...");
+
+    // حلقة الانتظار الموحدة لكلا نوعي الموجات
+    while (activeEnemies.Count > 0)
+    {
+        activeEnemies.RemoveAll(item => item == null);
+        yield return null; 
     }
+
+    Debug.Log("Wave COMPLETED!");
+}
      // --- دالة عامة لإزالة الأعداء من القائمة ---
     // سيتم استدعاؤها من العدو نفسه عند موته
     public void OnEnemyDestroyed(GameObject enemy)
@@ -306,30 +320,8 @@ public class GameManager : MonoBehaviour
         coins += amount;
         // UIManager.Instance.UpdateCoinsText(coins); // يجب إضافة هذه الدالة للواجهة
     }
-    private GameObject GetEnemyBasePrefab()
-    {
-        // يفترض أن يكون لديك prefab واحد اسمه "BaseEnemy" يحتوي على سكربت EnemyAI
-        // وSpriteRenderer وCollider... إلخ.
-        return Resources.Load<GameObject>("Prefabs/BaseEnemy"); // تأكد من وجوده في مجلد Resources/_Prefabs
-    }
+    
 
-
-
-
-    public void EndLevel(bool victory)
-    {
-        StopAllCoroutines();
-        if (victory)
-        {
-            Debug.Log("LEVEL COMPLETE! YOU WIN!");
-            // لاحقًا: عرض شاشة النصر
-        }
-        else
-        {
-            Debug.Log("GAME OVER! YOU LOST!");
-            // لاحقًا: عرض شاشة الهزيمة
-        }
-    }
 
     #region Save & Load System
     public void SaveGame()

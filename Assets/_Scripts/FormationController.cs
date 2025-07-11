@@ -57,38 +57,38 @@ public class FormationController : MonoBehaviour
         transform.position += Vector3.down * verticalStep; // النزول خطوة للأسفل
     }
 
+    
+
     public void AssignEnemiesToFormation(List<GameObject> enemies)
     {
         for (int i = 0; i < enemies.Count; i++)
         {
-            if (i < formationPoints.Count)
+            if (i >= formationPoints.Count) break; // توقف إذا كان عدد الأعداء أكثر من النقاط
+
+            FormationEnemyAI enemyAI = enemies[i].GetComponent<FormationEnemyAI>();
+            if (enemyAI != null)
             {
-                FormationEnemyAI enemyAI = enemies[i].GetComponent<FormationEnemyAI>();
-                if (enemyAI != null)
-                {
-                    enemyAI.AssignToPoint(formationPoints[i]);
-                    activeEnemies.Add(enemyAI);
-                }
+                enemyAI.AssignToPoint(formationPoints[i], this); // <<< تمرير this
+                activeEnemies.Add(enemyAI);
             }
         }
     }
     
-    private IEnumerator AttackRoutine()
+     private IEnumerator AttackRoutine()
     {
         while (true)
         {
             yield return new WaitForSeconds(attackInterval);
 
-            // اختر عدوًا عشوائيًا من الأحياء وأمره بالهجوم
-            if (activeEnemies.Count > 0)
+            // <<< تحسين: تنظيف القائمة وإيقاف الهجوم إذا لم يبق أعداء
+            activeEnemies.RemoveAll(e => e == null);
+            if (activeEnemies.Count == 0)
             {
-                activeEnemies.RemoveAll(e => e == null); // تنظيف القائمة
-                if (activeEnemies.Count > 0)
-                {
-                    int randomIndex = Random.Range(0, activeEnemies.Count);
-                    activeEnemies[randomIndex].StartAttack();
-                }
+                yield break; // أوقف الكوروتين
             }
+            
+            int randomIndex = Random.Range(0, activeEnemies.Count);
+            activeEnemies[randomIndex].StartAttack();
         }
     }
 

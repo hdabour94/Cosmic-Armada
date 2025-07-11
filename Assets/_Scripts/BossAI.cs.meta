@@ -1,13 +1,2 @@
 fileFormatVersion: 2
 guid: 97c73ae680066b7409edbfd98324ea58
-MonoImporter:
-  externalObjects: {}
-  serializedVersion: 2
-  defaultReferences:
-  - bossProjectilePrefab: {fileID: 8020040561039067568, guid: 5d39b5fb4363b3e4d8a0f4a0fc613060, type: 3}
-  - firePoint: {instanceID: 0}
-  executionOrder: 0
-  icon: {instanceID: 0}
-  userData: 
-  assetBundleName: 
-  assetBundleVariant: 

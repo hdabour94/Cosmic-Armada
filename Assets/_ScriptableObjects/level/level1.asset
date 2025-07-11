@@ -16,8 +16,8 @@ MonoBehaviour:
   levelIndex: 1
   sceneToLoad: Game Scene
   waves:
-  - {fileID: 11400000, guid: 34bccf5d39d07464ca22cc9e29ad1c69, type: 2}
-  - {fileID: 11400000, guid: 34bccf5d39d07464ca22cc9e29ad1c69, type: 2}
+  - {fileID: 11400000, guid: 8352c15b223dbd24dad001f330fc3e7d, type: 2}
+  - {fileID: 11400000, guid: c4bbc4979af6b8141953dea13d64a71f, type: 2}
   - {fileID: 11400000, guid: 34bccf5d39d07464ca22cc9e29ad1c69, type: 2}
   bossPrefab: {fileID: 4742867855400931589, guid: d07ad31dfac662445a9c268be0e85c3a, type: 3}
   timeBeforeBoss: 5
