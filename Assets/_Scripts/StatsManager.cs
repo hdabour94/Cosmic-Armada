@@ -53,12 +53,12 @@ public class StatsManager : MonoBehaviour
             {
                 // نستخدم قيم المكافآت من الـ ScriptableObject (أفضل للمستقبل)
                 // افترض أنك أضفت هذه المتغيرات إلى CharacterStats_SO
-                // OnDie.AddListener(() => GameManager.Instance.AddXP(baseStats.xpReward));
-                // OnDie.AddListener(() => GameManager.Instance.AddCoins(baseStats.coinReward));
+                 OnDie.AddListener(() => GameManager.Instance.AddXP(baseStats.xpReward));
+                 OnDie.AddListener(() => GameManager.Instance.AddCoins(baseStats.coinReward));
 
                 // للوقت الحالي، سنستخدم قيماً ثابتة كما في كودك
-                OnDie.AddListener(() => GameManager.Instance.AddXP(50));
-                OnDie.AddListener(() => GameManager.Instance.AddCoins(10));
+               // OnDie.AddListener(() => GameManager.Instance.AddXP(50));
+               // OnDie.AddListener(() => GameManager.Instance.AddCoins(10));
             }
             else
             {

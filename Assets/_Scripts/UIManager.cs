@@ -12,8 +12,15 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Slider xpSlider;
     [SerializeField] private TextMeshProUGUI levelText;
     [SerializeField] private TextMeshProUGUI coinText;
+    [SerializeField] private TextMeshProUGUI maxHpTxt;
+    [SerializeField] private TextMeshProUGUI currntHPTxt;
 
-    [ Header("Notification UI")]
+    [SerializeField] private TextMeshProUGUI xpToNextLevelTxt;
+    [SerializeField] private TextMeshProUGUI currentXpTxt;
+
+
+
+    [Header("Notification UI")]
     [SerializeField] private GameObject notificationPanel; // لوحة تحتوي على النص
     [SerializeField] private TextMeshProUGUI notificationText;
     [SerializeField] private float notificationDisplayTime = 2f;
@@ -47,6 +54,9 @@ public class UIManager : MonoBehaviour
         if (healthSlider != null)
         {
             healthSlider.value = (float)currentHP / maxHP;
+            maxHpTxt.text = maxHP.ToString();
+            currntHPTxt.text = currentHP.ToString();
+
         }
     }
 
@@ -55,6 +65,8 @@ public class UIManager : MonoBehaviour
         if (xpSlider != null)
         {
             xpSlider.value = (float)currentXP / xpToNextLevel;
+            currentXpTxt.text = currentXP.ToString();
+            xpToNextLevelTxt.text = xpToNextLevel.ToString();
         }
     }
 

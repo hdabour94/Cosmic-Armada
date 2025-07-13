@@ -136,14 +136,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97c73ae680066b7409edbfd98324ea58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 2
+  moveSpeed: 10
   movePoints:
   - {fileID: 2918310283353953399, guid: 7cbcef7dc9e7a984b9161b78b04d8f91, type: 3}
   - {fileID: 6082238614778782525, guid: 28d3b8e1204b49a449d96c295e842577, type: 3}
   - {fileID: 1304360424910021730, guid: d179aa7a762b76f4c9e512b6cb6c44d1, type: 3}
   bossProjectilePrefab: {fileID: 8020040561039067568, guid: 14e4d75c941229540ab1cbf6609d0355, type: 3}
   firePoint: {fileID: 2050800746754579835}
-  timeBetweenPatterns: 4
+  timeBetweenPatterns: 1
   bossState: {fileID: 11400000, guid: 1268ad8f02a56db4dba94494620fd6ed, type: 2}
 --- !u!114 &4383262484094192846
 MonoBehaviour:

@@ -318,7 +318,7 @@ public class GameManager : MonoBehaviour
     public void AddCoins(int amount)
     {
         coins += amount;
-        // UIManager.Instance.UpdateCoinsText(coins); // يجب إضافة هذه الدالة للواجهة
+        UIManager.Instance.UpdateCoinText(coins); // يجب إضافة هذه الدالة للواجهة
     }
     
 
@@ -346,6 +346,9 @@ public class GameManager : MonoBehaviour
 
         Debug.Log($"Player data loaded. Level: {this.playerLevel}");
 
+        UIManager.Instance.UpdateCoinText(coins);
+        UIManager.Instance.UpdateLevelText(playerLevel);
+        UIManager.Instance.UpdateXPUI(playerXP, xpToNextLevel);
         // التحديث الأولي للواجهة بعد التحميل
         // يتم استدعاؤه في Start في UIManager لضمان أن كل شيء جاهز
     }

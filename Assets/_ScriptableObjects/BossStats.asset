@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: BossStats
   m_EditorClassIdentifier: 
   maxHP: 300
-  strength: 20
-  xpReward: 10
-  coinReward: 5
+  strength: 100
+  xpReward: 1000
+  coinReward: 500
