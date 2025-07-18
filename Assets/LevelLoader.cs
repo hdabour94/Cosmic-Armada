@@ -12,12 +12,13 @@ public class LevelLoader : MonoBehaviour
     private System.Collections.IEnumerator LoadGameSceneAsync()
     {
         // احصل على بيانات المرحلة من حامل البيانات
-        LevelData_SO levelToLoad = GameDataHolder.Instance.SelectedLevel;
-
+    
+            LevelData_SO levelToLoad = GameDataHolder.Instance.SelectedLevel;
+    
         if (levelToLoad == null)
         {
             Debug.LogError("No level data selected! Returning to main menu.");
-            SceneManager.LoadScene("MainMenu");
+            SceneManager.LoadScene("MainMenu Scene");
             yield break;
         }
 
