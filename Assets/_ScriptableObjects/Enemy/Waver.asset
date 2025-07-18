@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyName: waver
   enemySprite: {fileID: 1228516337, guid: 2dfe5b940c62a28479b7edac367e9ddb, type: 3}
+  enemyAnimator: {fileID: 0}
   stats: {fileID: 11400000, guid: fde8c95e97ff2fe4fbf47c156b7c629d, type: 2}
   movementType: 1
-  speed: 3
+  speed: 0
   projectilePrefab: {fileID: 8020040561039067568, guid: 14e4d75c941229540ab1cbf6609d0355, type: 3}
   fireRate: 7

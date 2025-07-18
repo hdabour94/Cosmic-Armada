@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyName: shooter
   enemySprite: {fileID: 1228516337, guid: 47c8c1dfb37ae914691dc430706346f6, type: 3}
+  enemyAnimator: {fileID: 0}
   stats: {fileID: 11400000, guid: fde8c95e97ff2fe4fbf47c156b7c629d, type: 2}
   movementType: 0
-  speed: 3
+  speed: 0
   projectilePrefab: {fileID: 8020040561039067568, guid: 14e4d75c941229540ab1cbf6609d0355, type: 3}
   fireRate: 7

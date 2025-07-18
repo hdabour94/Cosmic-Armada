@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 414e4c41454304845b1dda953d37cf98, type: 3}
+  m_Name: SpaceShipLala
+  m_EditorClassIdentifier: 
+  itemName: Laza
+  icon: {fileID: 6736066195151807975, guid: 82b8e2ea289101a4c8df3507b7d5b0c5, type: 3}
+  price: 100
+  itemType: 0
+  prefab: {fileID: 7864931430804818028, guid: 2dd516c2fb1aece409519b869a119268, type: 3}

@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 414e4c41454304845b1dda953d37cf98, type: 3}
+  m_Name: BossDrakola
+  m_EditorClassIdentifier: 
+  itemName: Drakola
+  icon: {fileID: 6204042185899953152, guid: 606770b9014408544a81fb16ef561748, type: 3}
+  price: 5000
+  itemType: 1
+  prefab: {fileID: 4742867855400931589, guid: d07ad31dfac662445a9c268be0e85c3a, type: 3}

@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d45bcec5ec20dd744881f9be1f088113, type: 3}
-  m_Name: Grunt
+  m_Name: new
   m_EditorClassIdentifier: 
-  enemyName: grunt
-  enemySprite: {fileID: 1228516337, guid: 47c8c1dfb37ae914691dc430706346f6, type: 3}
-  enemyAnimator: {fileID: 0}
+  enemyName: neew
+  enemySprite: {fileID: 1344780287051860636, guid: d578be1435cd0a747a0e1c6ae78f1b45, type: 3}
+  enemyAnimator: {fileID: 9100000, guid: 7a80cd54cbc27dc4582646074c330246, type: 2}
   stats: {fileID: 11400000, guid: fde8c95e97ff2fe4fbf47c156b7c629d, type: 2}
-  movementType: 2
+  movementType: 1
   speed: 0
   projectilePrefab: {fileID: 8020040561039067568, guid: 14e4d75c941229540ab1cbf6609d0355, type: 3}
-  fireRate: 7
+  fireRate: 3
