@@ -164,6 +164,7 @@ public class GameManager : MonoBehaviour
     // هذه الدالة الجديدة تجمع بين التوليد والانتظار
     private IEnumerator SpawnAndWaitForWaveToEnd(WaveData_SO waveData)
 {
+    
     isSpawning = true;
     
     // --- منطق السرب (Formation) ---
@@ -345,6 +346,7 @@ public class GameManager : MonoBehaviour
         this.coins = data.coins;
 
         Debug.Log($"Player data loaded. Level: {this.playerLevel}");
+
 
         UIManager.Instance.UpdateCoinText(coins);
         UIManager.Instance.UpdateLevelText(playerLevel);
