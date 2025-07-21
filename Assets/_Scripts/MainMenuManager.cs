@@ -38,7 +38,7 @@ public class MainMenuManager : MonoBehaviour
     {
         // قبل تحميل المشهد، يمكننا حفظ بيانات المرحلة التي تم اختيارها
         // لتستخدمها اللعبة في المشهد التالي. سنستخدم Singleton أو PlayerPrefs.
-        // GameManager.Instance.SetCurrentLevel(levelData); // الطريقة الأفضل
+        // GameSessionManager.Instance.SetCurrentLevel(levelData); // الطريقة الأفضل
         SceneManager.LoadScene(sceneName);
     }
     

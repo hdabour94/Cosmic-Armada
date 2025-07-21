@@ -17,7 +17,7 @@ public class StoreUIManager : MonoBehaviour
 
     void UpdateUI()
     {
-        // coinsText.text = GameManager.Instance.coins.ToString();
+        coinsText.text = GameSessionManager.Instance.coins.ToString();
 
         if (coinsText == null)
         Debug.LogError("coinsText not assigned!");
@@ -27,8 +27,8 @@ public class StoreUIManager : MonoBehaviour
         Debug.LogError("itemButtonPrefab not assigned!");
     if (storeItems == null)
         Debug.LogError("storeItems not assigned!");
-    if (GameManager.Instance == null)
-        Debug.LogError("GameManager.Instance is null!");
+    if (GameSessionManager.Instance == null)
+        Debug.LogError("GameSessionManager.Instance is null!");
         
         foreach (Transform child in itemsParent)
             Destroy(child.gameObject);
@@ -44,9 +44,9 @@ public class StoreUIManager : MonoBehaviour
 
     void AttemptPurchase(StoreItem_SO item)
     {
-        if (GameManager.Instance.coins >= item.price)
+        if (GameSessionManager.Instance.coins >= item.price)
         {
-            GameManager.Instance.AddCoins(-item.price);
+            GameSessionManager.Instance.AddCoins(-item.price);
             // أضف للإنفنتوري بحسب النوع
             // TODO: InventoryManager.Add(item);
             Debug.Log($"تم شراء {item.itemName}");

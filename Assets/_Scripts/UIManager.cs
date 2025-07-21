@@ -41,11 +41,11 @@ public class UIManager : MonoBehaviour
     private void Start()
     {
         // تحديث الواجهة بالقيم الأولية من GameManager عند بدء المشهد
-        if (GameManager.Instance != null)
+        if (GameSessionManager.Instance != null)
         {
-            UpdateLevelText(GameManager.Instance.playerLevel);
-            UpdateXPUI(GameManager.Instance.playerXP, GameManager.Instance.xpToNextLevel);
-            UpdateCoinText(GameManager.Instance.coins);
+            UpdateLevelText(GameSessionManager.Instance.playerLevel);
+            UpdateXPUI(GameSessionManager.Instance.playerXP, GameSessionManager.Instance.xpToNextLevel);
+            UpdateCoinText(GameSessionManager.Instance.coins);
         }
     }
 

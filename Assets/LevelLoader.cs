@@ -24,7 +24,7 @@ public class LevelLoader : MonoBehaviour
 
         // قم بتعيين بيانات المرحلة في GameManager
         // بما أن GameManager هو DontDestroyOnLoad، يمكننا الوصول إليه
-        GameManager.Instance.SetCurrentLevel(levelToLoad);
+        LevelManager.Instance.SetCurrentLevel(levelToLoad);
 
         // अब مشهد اللعبة الفعلي
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(levelToLoad.sceneToLoad);

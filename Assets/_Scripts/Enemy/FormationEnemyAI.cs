@@ -56,9 +56,9 @@ public class FormationEnemyAI : MonoBehaviour
 
         // 3. البحث عن اللاعب (هدف الهجوم)
         // من الأفضل جلبه من GameManager لضمان وجود النسخة الصحيحة
-        if (GameManager.Instance != null && GameManager.Instance.CurrentPlayerInstance != null)
+        if (LevelManager.Instance != null && LevelManager.Instance.CurrentPlayerInstance != null)
         {
-            playerTransform = GameManager.Instance.CurrentPlayerInstance.transform;
+            playerTransform = LevelManager.Instance.CurrentPlayerInstance.transform;
         }
 
         // 4. ضبط الحالة الأولية

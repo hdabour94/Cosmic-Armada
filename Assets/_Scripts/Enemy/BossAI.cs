@@ -21,7 +21,7 @@ public class BossAI : MonoBehaviour
     {
         stats = GetComponent<StatsManager>();
         stats.Initialize(bossState); 
-        stats.OnDie.AddListener(() => GameManager.Instance.EndLevel(true)); // عند موت الزعيم، نفوز
+        stats.OnDie.AddListener(() => LevelManager.Instance.EndLevel(true)); // عند موت الزعيم، نفوز
         StartCoroutine(BossPatternRoutine());
     }
 

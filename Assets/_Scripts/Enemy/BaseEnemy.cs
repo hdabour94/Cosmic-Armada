@@ -52,9 +52,9 @@ public abstract class BaseEnemy : MonoBehaviour
     private void HandleDeath()
     {
         // منح الخبرة والعملات عند الموت
-      //  GameManager.Instance.AddRewards(xpReward, coinReward);
-       // GameManager.Instance.AddXP(xpOnDeath);
-       //  GameManager.Instance.AddCoins(coinsOnDeath); // عندما تضيف نظام العملات
+      //  GameSessionManager.Instance.AddRewards(xpReward, coinReward);
+       // GameSessionManager.Instance.AddXP(xpOnDeath);
+       //  GameSessionManager.Instance.AddCoins(coinsOnDeath); // عندما تضيف نظام العملات
         
         // يمكنك إضافة تأثير انفجار هنا قبل التدمير
         // Destroy(gameObject); // يتم التدمير الآن من خلال StatsManager

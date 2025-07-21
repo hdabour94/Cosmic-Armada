@@ -48,21 +48,21 @@ public class StatsManager : MonoBehaviour
         // 5. ربط حدث الموت بمنح المكافآت (فقط إذا لم يكن لاعبًا)
         if (!isPlayer)
         {
-            // تأكد من أن GameManager.Instance موجود قبل إضافة المستمعين
-            if (GameManager.Instance != null)
+            // تأكد من أن GameSessionManager.Instance موجود قبل إضافة المستمعين
+            if (GameSessionManager.Instance != null)
             {
                 // نستخدم قيم المكافآت من الـ ScriptableObject (أفضل للمستقبل)
                 // افترض أنك أضفت هذه المتغيرات إلى CharacterStats_SO
-                 OnDie.AddListener(() => GameManager.Instance.AddXP(baseStats.xpReward));
-                 OnDie.AddListener(() => GameManager.Instance.AddCoins(baseStats.coinReward));
+                 OnDie.AddListener(() => GameSessionManager.Instance.AddXP(baseStats.xpReward));
+                 OnDie.AddListener(() => GameSessionManager.Instance.AddCoins(baseStats.coinReward));
 
                 // للوقت الحالي، سنستخدم قيماً ثابتة كما في كودك
-               // OnDie.AddListener(() => GameManager.Instance.AddXP(50));
-               // OnDie.AddListener(() => GameManager.Instance.AddCoins(10));
+               // OnDie.AddListener(() => GameSessionManager.Instance.AddXP(50));
+               // OnDie.AddListener(() => GameSessionManager.Instance.AddCoins(10));
             }
             else
             {
-                Debug.LogError("GameManager.Instance is not set when trying to initialize enemy rewards!");
+                Debug.LogError("GameSessionManager.Instance is not set when trying to initialize enemy rewards!");
             }
         }
     }
@@ -94,15 +94,15 @@ public class StatsManager : MonoBehaviour
 
         if (isPlayer)
         {
-            if(GameManager.Instance != null) GameManager.Instance.EndLevel(false);
+            if(LevelManager.Instance != null) LevelManager.Instance.EndLevel(false);
             gameObject.SetActive(false);
         }
         else
         {
             // <<< تحسين: حماية ضد الأخطاء
-            if(GameManager.Instance != null)
+            if(LevelManager.Instance != null)
             {
-                GameManager.Instance.OnEnemyDestroyed(this.gameObject);
+                LevelManager.Instance.OnEnemyDestroyed(this.gameObject);
             }
             Destroy(gameObject, 0.1f); // <<< تحسين: تأخير بسيط لإتاحة فرصة لتشغيل مؤثرات الانفجار
         }
