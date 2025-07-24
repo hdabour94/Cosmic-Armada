@@ -16,6 +16,18 @@ public class BossAI : MonoBehaviour
     private StatsManager stats;
     public CharacterStats_SO bossState;
 
+    /// <summary>
+
+     [SerializeField] private BossData_SO selectedBoss;
+     void SpawnBoss()
+{
+    GameObject bossGO = Instantiate(selectedBoss.prefab, movePoints[0].position, Quaternion.identity);
+
+    StatsManager sm = bossGO.GetComponent<StatsManager>();
+    sm.ApplyBossData(selectedBoss);
+}
+
+/// </summary>
 
     void Start()
     {

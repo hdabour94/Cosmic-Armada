@@ -3,8 +3,9 @@ using UnityEngine;
 public class GameDataHolder : MonoBehaviour
 {
     public static GameDataHolder Instance { get; private set; }
-    
-    public LevelData_SO SelectedLevel { get; private set; }
+
+    public ShipData_SO SelectedShip { get; private set; }
+    public LevelData_SO SelectedLevel { get; private set; } // 🟢 تم إضافته الآن
 
     private void Awake()
     {
@@ -19,8 +20,13 @@ public class GameDataHolder : MonoBehaviour
         }
     }
 
-    public void SetSelectedLevel(LevelData_SO levelData)
+    public void SetSelectedShip(ShipData_SO ship)
     {
-        SelectedLevel = levelData;
+        SelectedShip = ship;
+    }
+
+    public void SetSelectedLevel(LevelData_SO level) // ✅ دالة جديدة
+    {
+        SelectedLevel = level;
     }
 }

@@ -9,12 +9,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 414e4c41454304845b1dda953d37cf98, type: 3}
-  m_Name: SpaceShipLala 1
+  m_Script: {fileID: 11500000, guid: 8c943244d6eb95440a8c698787bbdd3b, type: 3}
+  m_Name: New Ship
   m_EditorClassIdentifier: 
-  itemName: Laza
+  shipID: 1
+  shipName: Defult
   icon: {fileID: 6736066195151807975, guid: 82b8e2ea289101a4c8df3507b7d5b0c5, type: 3}
-  price: 100
-  itemType: 0
   prefab: {fileID: 7864931430804818028, guid: 2dd516c2fb1aece409519b869a119268, type: 3}
-  status: {fileID: 11400000, guid: 515cb1bb1c68b7841be4d6250320c449, type: 2}
+  maxHP: 100
+  strength: 10
+  speed: 5
+  fireRate: 0.5
+  shield: 0

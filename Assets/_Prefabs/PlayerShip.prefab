@@ -180,6 +180,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controlType: 1
   moveSpeed: 50
+  maxHP: 0
+  currentHP: 0
+  strength: 0
+  speed: 0
+  fireRate: 0
+  shield: 0
 --- !u!114 &2855256972842518354
 MonoBehaviour:
   m_ObjectHideFlags: 0

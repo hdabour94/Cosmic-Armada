@@ -19,7 +19,25 @@ public class PlayerController : MonoBehaviour
     // متغيرات للموبايل والماوس
     private Vector3 targetPosition;
     private bool isPointerInputActive = false; // اسم أوضح من isInputActive
+    public int maxHP;
+    public int currentHP;
+    public int strength;
+    public float speed;
+    public float fireRate;
+    public float shield;
 
+    
+public void Initialize(ShipData_SO data)
+    {
+    maxHP = data.maxHP;
+    currentHP = maxHP;
+    strength = data.strength;
+    speed = data.speed;
+    fireRate = data.fireRate;
+    shield = data.shield;
+
+    // أي تهيئة أخرى مطلوبة حسب نظامك
+    }
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();

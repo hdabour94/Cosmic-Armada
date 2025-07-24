@@ -14,4 +14,7 @@ public class LevelData_SO : ScriptableObject
     public WaveData_SO[] waves;
     public GameObject bossPrefab;
     public float timeBeforeBoss = 5f;
+
+    public BossData_SO bossData;
+    
 }

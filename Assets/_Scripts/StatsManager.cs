@@ -66,6 +66,13 @@ public class StatsManager : MonoBehaviour
             }
         }
     }
+    public void ApplyBossData(BossData_SO data)
+    {
+        BaseStats.maxHP = data.maxHP;
+        BaseStats.strength = data.strength;
+       
+    // ... خصائص إضافية إن وُجدت
+    }
 
     public void TakeDamage(int damage)
     {

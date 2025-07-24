@@ -10,6 +10,8 @@ public class StoreUIManager : MonoBehaviour
 
     public List<StoreItem_SO> storeItems;
 
+    public ItemDetailsUI itemDetailsUI;
+
     void Start()
     {
         UpdateUI();
@@ -35,10 +37,16 @@ public class StoreUIManager : MonoBehaviour
 
         foreach (var item in storeItems)
         {
+
+
             var btn = Instantiate(itemButtonPrefab, itemsParent);
-            btn.GetComponentInChildren<Text>().text = $"{item.itemName} - {item.price}C";
-            btn.GetComponentInChildren<Image>().sprite = item.icon;
-            btn.GetComponent<Button>().onClick.AddListener(() => AttemptPurchase(item));
+  
+
+                  btn.GetComponentInChildren<Text>().text = $"{item.itemName} - {item.price}C";
+                  btn.GetComponentInChildren<Image>().sprite = item.icon;
+                  btn.GetComponent<Button>().onClick.AddListener(() => {
+                    itemDetailsUI.ShowItem(item, AttemptPurchase);
+});
         }
     }
 

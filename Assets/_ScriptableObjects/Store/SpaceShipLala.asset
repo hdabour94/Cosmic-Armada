@@ -17,3 +17,4 @@ MonoBehaviour:
   price: 100
   itemType: 0
   prefab: {fileID: 7864931430804818028, guid: 2dd516c2fb1aece409519b869a119268, type: 3}
+  status: {fileID: 11400000, guid: 515cb1bb1c68b7841be4d6250320c449, type: 2}

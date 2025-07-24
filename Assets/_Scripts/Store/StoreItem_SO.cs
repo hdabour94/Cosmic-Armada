@@ -8,6 +8,8 @@ public class StoreItem_SO : ScriptableObject
     public int price;
     public StoreItemType itemType; // Enum: Spaceship, BossCard, PowerUp, etc.
     public GameObject prefab; // لمركبات أو عناصر تُضاف
+
+    public CharacterStats_SO status;
 }
 
 public enum StoreItemType

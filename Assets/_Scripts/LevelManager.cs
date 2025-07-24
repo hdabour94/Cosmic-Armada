@@ -9,9 +9,8 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private LevelData_SO currentLevelData;
 
     [Header("Player Configuration")]
-    [SerializeField] private GameObject playerPrefab;
+    private ShipData_SO selectedShipData;
     [SerializeField] private Transform playerSpawnPoint;
-    [SerializeField] private CharacterStats_SO playerStartingStats;
 
     [Header("Spawning")]
     [SerializeField] private Transform[] spawnPoints;
@@ -48,20 +47,26 @@ public class LevelManager : MonoBehaviour
     }
 
     private void SpawnPlayer()
-    {
-        if (playerPrefab == null || playerSpawnPoint == null || playerStartingStats == null)
-        {
-            Debug.LogError("Missing player spawn configuration in LevelManager!");
-            return;
-        }
+{
+    selectedShipData = GameDataHolder.Instance.SelectedShip;
 
-        CurrentPlayerInstance = Instantiate(playerPrefab, playerSpawnPoint.position, Quaternion.identity);
-        var stats = CurrentPlayerInstance.GetComponent<StatsManager>();
-        if (stats != null)
-        {
-            stats.Initialize(playerStartingStats);
-        }
+    if (selectedShipData == null)
+    {
+        Debug.LogError("No ship selected! Falling back to default prefab.");
+        return;
     }
+
+    GameObject playerGO = Instantiate(selectedShipData.prefab, playerSpawnPoint.position, Quaternion.identity);
+
+    StatsManager sm = playerGO.GetComponent<StatsManager>();
+    if (sm != null)
+    {
+        sm.BaseStats.maxHP = selectedShipData.maxHP;
+        sm.BaseStats.strength = selectedShipData.strength;
+        sm.BaseStats.speed = selectedShipData.speed;
+        sm.BaseStats.fireRate = selectedShipData.fireRate;
+    }
+}
 
     private IEnumerator LevelSequenceRoutine()
     {
@@ -122,9 +127,21 @@ public class LevelManager : MonoBehaviour
     {
         UIManager.Instance?.ShowNotification("WARNING: BOSS INCOMING!");
         yield return new WaitForSeconds(currentLevelData.timeBeforeBoss);
-        if (currentLevelData.bossPrefab != null)
+
+        if (currentLevelData.bossData != null && currentLevelData.bossData.prefab != null)
         {
-            Instantiate(currentLevelData.bossPrefab, spawnPoints[0].position, Quaternion.identity);
+            GameObject bossGO = Instantiate(currentLevelData.bossData.prefab, spawnPoints[0].position, Quaternion.identity);
+            StatsManager sm = bossGO.GetComponent<StatsManager>();
+            if (sm != null)
+            {
+                sm.BaseStats.maxHP = currentLevelData.bossData.maxHP;
+                sm.BaseStats.strength = currentLevelData.bossData.strength;
+                sm.BaseStats.fireRate = currentLevelData.bossData.fireRate;
+            }
+        }
+        else
+        {
+            Debug.LogWarning("No boss data assigned in currentLevelData!");
         }
     }
 
@@ -137,10 +154,9 @@ public class LevelManager : MonoBehaviour
     }
 
     public void SetCurrentLevel(LevelData_SO levelData)
-{
-    this.currentLevelData = levelData;
-}
-
+    {
+        this.currentLevelData = levelData;
+    }
 
     public void EndLevel(bool victory)
     {
