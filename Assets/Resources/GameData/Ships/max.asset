@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c943244d6eb95440a8c698787bbdd3b, type: 3}
+  m_Name: max
+  m_EditorClassIdentifier: 
+  shipName: Max
+  icon: {fileID: 606466193383608676, guid: d578be1435cd0a747a0e1c6ae78f1b45, type: 3}
+  prefab: {fileID: 7864931430804818028, guid: dceb8ba9cbb4e6e42a9f08adbd652914, type: 3}
+  stats: {fileID: 11400000, guid: 9b1e6691b1ecb924083a41d9ffbd0be2, type: 2}
+  defaultWeapon: 0
+  upgradePaths: []

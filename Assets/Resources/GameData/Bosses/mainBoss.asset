@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c556f656c8a82f046bde234d76462c43, type: 3}
+  m_Name: mainBoss
+  m_EditorClassIdentifier: 
+  bossName: main
+  prefab: {fileID: 4742867855400931589, guid: d07ad31dfac662445a9c268be0e85c3a, type: 3}
+  characterStats: {fileID: 11400000, guid: 1268ad8f02a56db4dba94494620fd6ed, type: 2}
+  projectilePrefab: {fileID: 8020040561039067568, guid: 14e4d75c941229540ab1cbf6609d0355, type: 3}
+  patterns: []
+  timeBetweenPatterns: 3
+  xpReward: 100
+  coinReward: 50

@@ -2,12 +2,26 @@
 
 public class Projectile : MonoBehaviour
 {
-    public float speed = 20f;
-    public int damage = 10;
+    public int damage;
+    public float speed;
+    private Rigidbody2D rb;
 
-    void Start()
+    public void Initialize(int dmg, float spd)
     {
-        GetComponent<Rigidbody2D>().linearVelocity = transform.up * speed;
+        damage = dmg;
+        speed = spd;
+        rb = GetComponent<Rigidbody2D>();
+        rb.linearVelocity = transform.up * speed;
         Destroy(gameObject, 3f);
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        StatsManager stats = other.GetComponent<StatsManager>();
+        if (stats != null)
+        {
+            stats.TakeDamage(damage);
+            Destroy(gameObject);
+        }
     }
 }

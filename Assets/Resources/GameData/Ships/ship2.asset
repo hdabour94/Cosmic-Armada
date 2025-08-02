@@ -12,12 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c943244d6eb95440a8c698787bbdd3b, type: 3}
   m_Name: ship2
   m_EditorClassIdentifier: 
-  shipID: 222
   shipName: ANN
   icon: {fileID: 1228516337, guid: f9f8849d96b34e9408492525c9b99a25, type: 3}
-  prefab: {fileID: 7864931430804818028, guid: 2dd516c2fb1aece409519b869a119268, type: 3}
-  maxHP: 100
+  prefab: {fileID: 7864931430804818028, guid: dceb8ba9cbb4e6e42a9f08adbd652914, type: 3}
+  stats: {fileID: 11400000, guid: 515cb1bb1c68b7841be4d6250320c449, type: 2}
+  maxHP: 10000
   strength: 10
   speed: 5
   fireRate: 0.5
-  shield: 0
+  defaultWeapon: 0
+  upgradePaths: []

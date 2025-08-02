@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 679fbd71032f3e047bc3f19655f47cd2, type: 3}
+  m_Name: level1
+  m_EditorClassIdentifier: 
+  levelName: level 1
+  levelIndex: 0
+  sceneToLoad: Game Scene
+  waves:
+  - {fileID: 11400000, guid: 8352c15b223dbd24dad001f330fc3e7d, type: 2}
+  - {fileID: 11400000, guid: 34bccf5d39d07464ca22cc9e29ad1c69, type: 2}
+  - {fileID: 11400000, guid: c4bbc4979af6b8141953dea13d64a71f, type: 2}
+  - {fileID: 11400000, guid: 8352c15b223dbd24dad001f330fc3e7d, type: 2}
+  - {fileID: 11400000, guid: 8352c15b223dbd24dad001f330fc3e7d, type: 2}
+  - {fileID: 11400000, guid: 8352c15b223dbd24dad001f330fc3e7d, type: 2}
+  - {fileID: 11400000, guid: 8352c15b223dbd24dad001f330fc3e7d, type: 2}
+  - {fileID: 11400000, guid: 8352c15b223dbd24dad001f330fc3e7d, type: 2}
+  - {fileID: 11400000, guid: 8352c15b223dbd24dad001f330fc3e7d, type: 2}
+  - {fileID: 11400000, guid: 8352c15b223dbd24dad001f330fc3e7d, type: 2}
+  timeBeforeBoss: 5
+  bossData: {fileID: 11400000, guid: 8b4988377083a494397c1abed7bcd6c0, type: 2}

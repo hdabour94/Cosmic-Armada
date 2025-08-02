@@ -12,12 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c943244d6eb95440a8c698787bbdd3b, type: 3}
   m_Name: New Ship
   m_EditorClassIdentifier: 
-  shipID: 1
   shipName: Defult
   icon: {fileID: 6736066195151807975, guid: 82b8e2ea289101a4c8df3507b7d5b0c5, type: 3}
-  prefab: {fileID: 7864931430804818028, guid: 2dd516c2fb1aece409519b869a119268, type: 3}
-  maxHP: 100
-  strength: 10
-  speed: 5
-  fireRate: 0.5
-  shield: 0
+  prefab: {fileID: 7864931430804818028, guid: dceb8ba9cbb4e6e42a9f08adbd652914, type: 3}
+  stats: {fileID: 11400000, guid: 980c67e83e41a7c49840261027e3c5a0, type: 2}
+  defaultWeapon: 0
+  upgradePaths: []
