@@ -12,27 +12,21 @@ public class EnemyAI : MonoBehaviour
     {
         this.enemyData = data;
         GetComponent<SpriteRenderer>().sprite = enemyData.enemySprite;
-        GetComponent<StatsManager>().Initialize(enemyData.stats); 
-        
+        GetComponent<StatsManager>().Initialize(enemyData.stats);
+
         SetMovementBehavior();
-        
+
         if (enemyData.projectilePrefab != null)
         {
             var weapon = gameObject.AddComponent<EnemyWeapon>();
-            
-            // <--- التعديل هنا: قم بتهيئة كائن settings نفسه أولاً
-            weapon.settings = new WeaponBase.WeaponSettings(); 
+            weapon.InitializeFromData(enemyData); // أنشئ دالة تهيئة جديدة في EnemyWeapon 
 
-            // هذه الأسطر ستعمل الآن لأن 'settings' لم تعد null
-            weapon.settings.projectilePrefab = enemyData.projectilePrefab; 
-            weapon.settings.firePoint = transform; // يمكن أن يكون هذا هو firePoint الافتراضي للعدو (مركز الكائن)
-            weapon.settings.fireRate = enemyData.fireRate; 
         }
     }
 
     private void SetMovementBehavior()
     {
-        playerTransform = LevelManager.Instance?.CurrentPlayerInstance?.transform;
+        Transform playerTransform = LevelManager.Instance?.CurrentPlayerInstance?.transform;
 
         switch (enemyData.movementType)
         {
@@ -45,6 +39,14 @@ public class EnemyAI : MonoBehaviour
             case EnemyMovementType.Chaser:
                 movementBehavior = new ChaseMovement(enemyData.speed, playerTransform);
                 break;
+        }
+    }
+    private void Update()
+    {
+        // تحقق من وجود سلوك حركة ثم قم بتنفيذه
+        if (movementBehavior != null)
+        {
+            movementBehavior.Move(this.transform);
         }
     }
 }

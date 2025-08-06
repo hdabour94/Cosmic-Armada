@@ -33,24 +33,4 @@ MonoBehaviour:
     delayBeforeSpawn: 0
   - enemyData: {fileID: 11400000, guid: 2930ddb82e3599546a2ecd810be2dc68, type: 2}
     delayBeforeSpawn: 0
-  - enemyData: {fileID: 11400000, guid: 2930ddb82e3599546a2ecd810be2dc68, type: 2}
-    delayBeforeSpawn: 0
-  - enemyData: {fileID: 11400000, guid: 2930ddb82e3599546a2ecd810be2dc68, type: 2}
-    delayBeforeSpawn: 0
-  - enemyData: {fileID: 11400000, guid: 2930ddb82e3599546a2ecd810be2dc68, type: 2}
-    delayBeforeSpawn: 0
-  - enemyData: {fileID: 11400000, guid: 2930ddb82e3599546a2ecd810be2dc68, type: 2}
-    delayBeforeSpawn: 0
-  - enemyData: {fileID: 11400000, guid: 2930ddb82e3599546a2ecd810be2dc68, type: 2}
-    delayBeforeSpawn: 0
-  - enemyData: {fileID: 11400000, guid: 2930ddb82e3599546a2ecd810be2dc68, type: 2}
-    delayBeforeSpawn: 0
-  - enemyData: {fileID: 11400000, guid: 2930ddb82e3599546a2ecd810be2dc68, type: 2}
-    delayBeforeSpawn: 0
-  - enemyData: {fileID: 11400000, guid: 2930ddb82e3599546a2ecd810be2dc68, type: 2}
-    delayBeforeSpawn: 0
-  - enemyData: {fileID: 11400000, guid: 2930ddb82e3599546a2ecd810be2dc68, type: 2}
-    delayBeforeSpawn: 0
-  - enemyData: {fileID: 11400000, guid: 2930ddb82e3599546a2ecd810be2dc68, type: 2}
-    delayBeforeSpawn: 0
   formationPrefab: {fileID: 2400020848695221798, guid: c84eace7e3253d8448d081fe996ab92d, type: 3}

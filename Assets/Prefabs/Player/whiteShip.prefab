@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 5907004730030115173}
   - component: {fileID: 4863869829655264837}
   m_Layer: 0
-  m_Name: defaultPlayerPrefab
+  m_Name: whiteShip
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -32,7 +32,7 @@ Transform:
   m_GameObject: {fileID: 7864931430804818028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.006802082, y: -2.9255276, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -86,7 +86,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -2413806693520163455, guid: 4b55ba0a1ac05ef46bd0b2f9aedc6ce3, type: 3}
+  m_Sprite: {fileID: 6736066195151807975, guid: 82b8e2ea289101a4c8df3507b7d5b0c5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -162,7 +162,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    oldSize: {x: 8.65, y: 6.17}
     newSize: {x: 8.65, y: 6.17}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -232,6 +232,7 @@ MonoBehaviour:
     projectileSpeed: 15
   autoFire: 1
   manualFireKey: 32
+  projectileToUse: {fileID: 8020040561039067568, guid: 5d39b5fb4363b3e4d8a0f4a0fc613060, type: 3}
 --- !u!1 &8317608346919408517
 GameObject:
   m_ObjectHideFlags: 0
@@ -257,7 +258,7 @@ Transform:
   m_GameObject: {fileID: 8317608346919408517}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 63.1, z: 0}
+  m_LocalPosition: {x: 0, y: 5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

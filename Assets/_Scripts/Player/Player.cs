@@ -5,11 +5,14 @@ using UnityEngine;
 [RequireComponent(typeof(StatsManager))]
 [RequireComponent(typeof(PlayerController))]
 [RequireComponent(typeof(PlayerWeapon))]
+
 public class Player : MonoBehaviour
 {
     // مراجع للمكونات التي تحتاج إلى تهيئة
     private StatsManager statsManager;
     private PlayerWeapon playerWeapon;
+
+        private PlayerController playerController; // أضف مرجعًا لوحدة التحكم
     // يمكنك إضافة أي مكونات أخرى هنا مستقبلاً
 
     private void Awake()
@@ -17,6 +20,7 @@ public class Player : MonoBehaviour
         // جلب المكونات مرة واحدة في Awake
         statsManager = GetComponent<StatsManager>();
         playerWeapon = GetComponent<PlayerWeapon>();
+                playerController = GetComponent<PlayerController>(); // احصل عليه في Awake
     }
 
     // هذه هي الدالة الرئيسية التي سيستدعيها LevelManager
@@ -36,6 +40,8 @@ public class Player : MonoBehaviour
         {
             statsManager.Initialize(shipData.stats);
             Debug.Log($"StatsManager initialized with {shipData.stats.name}. HP: {statsManager.CurrentHP}");
+            playerController.SetMoveSpeed(shipData.stats.speed);
+            Debug.Log($"PlayerController speed set to: {shipData.stats.speed}");
         }
         else
         {
@@ -44,8 +50,8 @@ public class Player : MonoBehaviour
 
         // 2. الآن بعد أن تم تهيئة الإحصائيات، قم بتهيئة المكونات الأخرى التي تعتمد عليها
         // سنقوم بتعديل PlayerWeapon ليحتوي على دالة Initialize
-        playerWeapon.Initialize(statsManager.BaseStats);
-        Debug.Log($"PlayerWeapon initialized with FireRate: {playerWeapon.settings.fireRate}");
+       // playerWeapon.Initialize(statsManager.BaseStats);
+       // Debug.Log($"PlayerWeapon initialized with FireRate: {playerWeapon.settings.fireRate}");
 
         // 3. أي تهيئة مستقبلية تأتي هنا...
     }

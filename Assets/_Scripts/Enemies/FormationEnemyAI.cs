@@ -73,63 +73,50 @@ public class FormationEnemyAI : MonoBehaviour
     }
 
     void Update()
-    {
-         if (currentState == State.Disabled) return;
-
-    // لم نعد بحاجة للتحقق من formationPoint != null لأننا لا نستخدمه في كل الحالات
+{
+    if (currentState == State.Disabled) return;
 
     switch (currentState)
     {
         case State.InFormation:
-            // لا حاجة لعمل أي شيء هنا!
-            // بما أننا أبناء لنقطة التشكيل، فإننا نتحرك معها تلقائيًا.
+            // لا حاجة لعمل أي شيء هنا. نظام الـ Parent/Child يقوم بالعمل.
             break;
 
         case State.Attacking:
-            // ... (منطق الهجوم يبقى كما هو) ...
+            // ملاحقة اللاعب (مع التحقق من وجوده)
+            if (playerTransform != null)
+            {
+                Vector3 direction = (playerTransform.position - transform.position).normalized;
+                transform.Translate(direction * attackSpeed * Time.deltaTime, Space.World);
+            }
+            else
+            {
+                // إذا دُمر اللاعب، عد إلى التشكيل
+                currentState = State.Returning;
+            }
             break;
 
         case State.Returning:
-            // ... (منطق العودة يبقى كما هو) ...
-            // ملاحظة: أثناء العودة، يجب أن "نفصل" أنفسنا عن الأصل مؤقتًا
+            // العودة بسرعة إلى نقطة التشكيل
+            if (formationPoint != null)
+            {
+                transform.position = Vector2.MoveTowards(transform.position, formationPoint.position, returnSpeed * Time.deltaTime);
+                if (Vector2.Distance(transform.position, formationPoint.position) < 0.1f)
+                {
+                    // تم الوصول، أعد ربط نفسك بالتشكيل
+                    currentState = State.InFormation;
+                    transform.SetParent(formationPoint);
+                    transform.localRotation = Quaternion.identity;
+                }
+            }
+            else
+            {
+                // إذا تم تدمير التشكيل لسبب ما، تصرف كعدو عادي
+                transform.Translate(Vector2.down * attackSpeed * Time.deltaTime);
+            }
             break;
     }
-     /*   // لا تفعل شيئًا إذا لم يتم تهيئة العدو بشكل صحيح
-           if (currentState == State.Disabled || formationPoint == null) return;
-
-           // تنفيذ السلوك بناءً على الحالة الحالية
-           switch (currentState)
-           {
-               case State.InFormation:
-                   // التموضع في نقطة التشكيل بسلاسة
-                   transform.position = Vector3.Lerp(transform.position, formationPoint.position, Time.deltaTime * 10f);
-                   transform.rotation = formationPoint.rotation;
-                   break;
-
-               case State.Attacking:
-                   // ملاحقة اللاعب (مع التحقق من وجوده)
-                   if (playerTransform != null)
-                   {
-                       Vector3 direction = (playerTransform.position - transform.position).normalized;
-                       transform.Translate(direction * attackSpeed * Time.deltaTime, Space.World);
-                   }
-                   else
-                   {
-                       // إذا دُمر اللاعب، عد إلى التشكيل
-                       currentState = State.Returning;
-                   }
-                   break;
-
-               case State.Returning:
-                   // العودة بسرعة إلى نقطة التشكيل
-                   transform.position = Vector2.MoveTowards(transform.position, formationPoint.position, returnSpeed * Time.deltaTime);
-                   if (Vector2.Distance(transform.position, formationPoint.position) < 0.1f)
-                   {
-                       currentState = State.InFormation; // تم الوصول
-                   }
-                   break;
-           }*/
-    }
+}
 
     // يتم استدعاؤها من FormationController لبدء الهجوم
     public void StartAttack()
@@ -142,38 +129,32 @@ public class FormationEnemyAI : MonoBehaviour
 
     private IEnumerator AttackSequence()
 {
+    if (currentState != State.InFormation) yield break;
+
     currentState = State.Attacking;
-    transform.SetParent(null); // <<<--- افصل نفسك عن التشكيل لتبدأ الهجوم بحرية
+    transform.SetParent(null); // افصل نفسك عن التشكيل لتبدأ الهجوم بحرية
     
     yield return new WaitForSeconds(attackDuration);
     
+    // بعد انتهاء مدة الهجوم، ابدأ بالعودة
     currentState = State.Returning;
-    
-    // انتظر حتى تنتهي العودة...
-    while (currentState == State.Returning)
-    {
-        yield return null;
-    }
-    
-    // ... ثم أعد ربط نفسك بالتشكيل
-    transform.SetParent(formationPoint);
-    transform.localRotation = Quaternion.identity; // أعد توجيه نفسك
 }
     // دالة تُستدعى عند موت العدو (بفضل UnityEvent)
     private void OnDeath()
     {
+        
         if (formationController != null)
         {
             formationController.RemoveEnemy(this);
         }
         // Also notify LevelManager/GameManager that this enemy is gone
-        if (LevelManager.Instance != null)
+     /*   if (LevelManager.Instance != null)
         {
             LevelManager.Instance.OnEnemyDestroyed(gameObject);
         }
         else if (LevelManager.Instance != null)
         {
             LevelManager.Instance.OnEnemyDestroyed(gameObject);
-        }
+        }*/
     }
 }

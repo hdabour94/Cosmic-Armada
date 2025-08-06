@@ -10,7 +10,9 @@ public class StatsManager : MonoBehaviour
     public UnityEvent OnDie;
     private RewardSystem rewardSystem;
 
-    [System.Obsolete]
+        private EnemyUIController uiController;
+
+  //  [System.Obsolete]
     private void Awake()
     {
         rewardSystem = FindObjectOfType<RewardSystem>();
@@ -21,10 +23,30 @@ public class StatsManager : MonoBehaviour
     {
         BaseStats = stats;
         CurrentHP = BaseStats.maxHP;
-        
+
         if (IsPlayer)
         {
             UIManager.Instance?.UpdateHealthUI(CurrentHP, BaseStats.maxHP);
+
+            uiController = GetComponentInChildren<EnemyUIController>();
+            if (uiController != null)
+            {
+                // قم بتهيئته وأعطه الهدف الذي يجب أن يتبعه (وهو هذا العدو)
+                uiController.Initialize(this.transform);
+
+                // قم بتحديث الواجهة بالقيم الأولية
+                uiController.UpdateHealth(CurrentHP, BaseStats.maxHP);
+
+                // افترض أن لديك مستوى في CharacterStats_SO
+                // إذا لم يكن كذلك، يمكنك تجاهل هذا السطر
+                // uiController.UpdateLevel(BaseStats.level); 
+            }
+        }
+         else
+        {
+            // --- ربط نظام المكافآت بحدث الموت ---
+            OnDie.AddListener(GrantRewards);
+            // ------------------------------------
         }
     }
 
@@ -37,22 +59,41 @@ public class StatsManager : MonoBehaviour
         if (IsPlayer)
         {
             UIManager.Instance?.UpdateHealthUI(CurrentHP, BaseStats.maxHP);
+        }else // إذا كان عدوًا
+        {
+            // قم بتحديث شريط الصحة الخاص به
+            uiController?.UpdateHealth(CurrentHP, BaseStats.maxHP);
         }
 
         if (CurrentHP <= 0) Die();
     }
 
     public void Die()
-{
-    OnDie?.Invoke();
-    if (IsPlayer)
     {
-        LevelManager.Instance?.EndLevel(false);
-        gameObject.SetActive(false);
+        OnDie?.Invoke();
+
+        if (IsPlayer)
+        {
+            LevelManager.Instance?.EndLevel(false);
+            gameObject.SetActive(false);
+        }
+        else // هذا عدو
+        {
+            // --- الجزء الرئيسي للحل ---
+            // 1. أخبر المدير بأن هذا العدو قد تم تدميره
+            LevelManager.Instance?.OnEnemyDestroyed(this.gameObject);
+
+            // 2. دمر الكائن
+            Destroy(gameObject);
+        }
     }
-    else
+private void GrantRewards()
     {
-        Destroy(gameObject, 0.1f);
+        if (rewardSystem != null && BaseStats != null)
+        {
+            rewardSystem.HandleEnemyDeath(BaseStats);
+        }
+        // أزل المستمع لمنع استدعائه مرة أخرى عن طريق الخطأ
+        OnDie.RemoveListener(GrantRewards);
     }
-}
 }

@@ -6,7 +6,8 @@ public class SinWaveMovement : IMovementBehavior
     private float frequency;
     private float amplitude;
     private Vector3 startPos;
-    
+    private float timeElapsed = 0f; // متغير لتتبع الوقت المنقضي
+
     public SinWaveMovement(float speed, float freq, float amp)
     {
         this.speed = speed;
@@ -16,10 +17,22 @@ public class SinWaveMovement : IMovementBehavior
     
     public void Move(Transform transform)
     {
-        if (startPos == Vector3.zero) startPos = transform.position;
+        // احفظ نقطة البداية مرة واحدة فقط
+        if (startPos == Vector3.zero) 
+        {
+            startPos = transform.position;
+        }
         
-        float x = Mathf.Sin(Time.time * frequency) * amplitude;
-        transform.position = startPos + new Vector3(x, 0, 0) + 
-            (Vector3.down * speed * Time.time);
+        // قم بزيادة الوقت المنقضي بناءً على deltaTime
+        timeElapsed += Time.deltaTime;
+
+        // الحركة الأفقية (الموجة الجيبية)
+        float x = startPos.x + (Mathf.Sin(timeElapsed * frequency) * amplitude);
+
+        // الحركة الرأسية (مستمرة للأسفل)
+        float y = transform.position.y - (speed * Time.deltaTime);
+
+        // طبق الموضع الجديد
+        transform.position = new Vector3(x, y, transform.position.z);
     }
 }

@@ -102,145 +102,49 @@ public class LevelManager : MonoBehaviour
         yield return StartCoroutine(SpawnBossRoutine());
     }
 
-    // في LevelManager.cs
 
-    /*
-        private IEnumerator SpawnAndWaitForWaveToEnd(WaveData_SO waveData)
+private IEnumerator SpawnAndWaitForWaveToEnd(WaveData_SO waveData)
+{
+    isSpawning = true;
+    activeEnemies.Clear();
+    Debug.Log($"Starting wave: {waveData.name}");
+
+    if (waveData.formationPrefab != null)
+    {
+        // --- منطق موجة التشكيل (Formation Wave) ---
+        var formationObject = Instantiate(waveData.formationPrefab, transform.position, Quaternion.identity);
+        var controller = formationObject.GetComponent<FormationController>();
+        if (controller != null)
         {
-            // التأكد من أن قائمة الأعداء فارغة قبل بدء الموجة
-            activeEnemies.Clear();
-            isSpawning = true;
-            Debug.Log($"Starting wave '{waveData.name}'. Waiting for completion...");
-
-            // -----------------------------------------------------------------
-            // الجزء 1: توليد الأعداء (Spawning)
-            // -----------------------------------------------------------------
-
-            if (waveData.formationPrefab != null)
+            var enemiesForFormation = new List<FormationEnemyAI>();
+            foreach (var enemyInfo in waveData.enemiesToSpawn)
             {
-                // --- منطق موجة التشكيل (Formation Wave) ---
-                Debug.Log("Wave type: Formation");
-                GameObject formationObject = Instantiate(waveData.formationPrefab, transform.position, Quaternion.identity);
-                FormationController controller = formationObject.GetComponent<FormationController>();
-
-                if (controller != null)
+                // أنشئ العدو في مكان آمن (نفس مكان LevelManager)
+                var enemyGO = Instantiate(baseEnemyPrefab, this.transform.position, Quaternion.identity);
+                var enemyAI = enemyGO.GetComponent<FormationEnemyAI>();
+                if (enemyAI != null)
                 {
-                    List<FormationEnemyAI> enemiesForFormation = new List<FormationEnemyAI>();
-                    foreach (var enemyInfo in waveData.enemiesToSpawn)
-                    {
-                        // أنشئ العدو في (0,0,0) مؤقتًا، سيقوم التشكيل بتحديد موقعه
-                        GameObject enemyGO = Instantiate(baseEnemyPrefab, this.transform.position, Quaternion.identity);
-
-                        FormationEnemyAI enemyAI = enemyGO.GetComponent<FormationEnemyAI>();
-                        if (enemyAI != null)
-                        {
-                            enemyAI.Initialize(enemyInfo.enemyData);
-                            enemiesForFormation.Add(enemyAI);
-                            activeEnemies.Add(enemyGO); // أضف كائن اللعبة إلى القائمة التي يتم تتبعها
-                        }
-                        else
-                        {
-                            Debug.LogError($"BaseEnemyPrefab is missing the FormationEnemyAI component. Cannot create formation enemy from '{enemyInfo.enemyData.name}'.");
-                            Destroy(enemyGO);
-                        }
-                    }
-                    controller.AssignEnemies(enemiesForFormation);
+                    enemyAI.Initialize(enemyInfo.enemyData);
+                    enemiesForFormation.Add(enemyAI);
+                    activeEnemies.Add(enemyGO);
                 }
                 else
                 {
-                    Debug.LogError("The assigned Formation Prefab is missing the FormationController script!");
+                    Debug.LogError("BaseEnemyPrefab is missing FormationEnemyAI component!");
+                    Destroy(enemyGO);
                 }
             }
-            else
-            {
-                // --- منطق الموجة العشوائية (Random Wave) ---
-                Debug.Log("Wave type: Random");
-                foreach (var enemyInfo in waveData.enemiesToSpawn)
-                {
-                    // انتظر التأخير المحدد *قبل* إنشاء العدو
-                    if (enemyInfo.delayBeforeSpawn > 0)
-                    {
-                        yield return new WaitForSeconds(enemyInfo.delayBeforeSpawn);
-                    }
-
-                    Transform point = spawnPoints[Random.Range(0, spawnPoints.Length)];
-                    GameObject enemyGO = Instantiate(baseEnemyPrefab, point.position, Quaternion.identity);
-
-                    EnemyAI enemyAI = enemyGO.GetComponent<EnemyAI>();
-                    if (enemyAI != null)
-                    {
-                        enemyAI.Initialize(enemyInfo.enemyData);
-                        activeEnemies.Add(enemyGO); // أضف كائن اللعبة إلى القائمة التي يتم تتبعها
-                    }
-                    else
-                    {
-                        Debug.LogError($"BaseEnemyPrefab is missing the EnemyAI component. Cannot create random enemy from '{enemyInfo.enemyData.name}'.");
-                        Destroy(enemyGO);
-                    }
-                }
-            }
-
-            isSpawning = false;
-            Debug.Log($"Spawning complete for wave. {activeEnemies.Count} enemies are active. Now waiting...");
-
-            // -----------------------------------------------------------------
-            // الجزء 2: الانتظار (Waiting)
-            // -----------------------------------------------------------------
-
-            // تأكد من وجود أعداء تم توليدهم قبل الدخول في حلقة الانتظار
-            if (activeEnemies.Count == 0)
-            {
-                Debug.LogWarning("Wave ended immediately because no enemies were spawned successfully.");
-                yield break; // اخرج من الكوروتين إذا لم يتم إنشاء أي أعداء
-            }
-
-            // انتظر حتى يتم تدمير جميع الأعداء في القائمة
-            while (activeEnemies.Count > 0)
-            {
-                // قم بإزالة أي كائنات أصبحت null (تم تدميرها) من القائمة
-                activeEnemies.RemoveAll(enemy => enemy == null);
-                yield return null; // انتظر الإطار التالي ثم تحقق مرة أخرى
-            }
-
-            Debug.Log($"Wave '{waveData.name}' COMPLETED!");
+            controller.AssignEnemies(enemiesForFormation);
         }
-    */
-private IEnumerator SpawnAndWaitForWaveToEnd(WaveData_SO waveData)
-{
-isSpawning = true;
-      
-if (waveData.formationPrefab != null)
-    {
-        // توليد التشكيلات
-        var formation = Instantiate(waveData.formationPrefab);
-        var controller = formation.GetComponent<FormationController>();
-        List<FormationEnemyAI> enemies = new(); 
-        
-        foreach (var enemyInfo in waveData.enemiesToSpawn)
-        {
-            var enemyGO = Instantiate(baseEnemyPrefab); 
-            var enemyAI = enemyGO.GetComponent<FormationEnemyAI>(); 
-            if (enemyAI != null) 
-            {
-                enemyAI.Initialize(enemyInfo.enemyData); 
-                enemies.Add(enemyAI); 
-                activeEnemies.Add(enemyGO); 
-            }
-            else
-            {
-                Debug.LogError("BaseEnemyPrefab does not have FormationEnemyAI component for formation enemies!");
-                Destroy(enemyGO); 
-            }
-        }
-        
-        controller?.AssignEnemies(enemies); 
     }
     else
     {
-        // توليد عشوائي
+        // --- منطق الموجة العشوائية (Random Wave) ---
         foreach (var enemyInfo in waveData.enemiesToSpawn)
         {
-            yield return new WaitForSeconds(enemyInfo.delayBeforeSpawn);
+            if (enemyInfo.delayBeforeSpawn > 0)
+                yield return new WaitForSeconds(enemyInfo.delayBeforeSpawn);
+            
             Transform point = spawnPoints[Random.Range(0, spawnPoints.Length)];
             var enemy = Instantiate(baseEnemyPrefab, point.position, Quaternion.identity);
             enemy.GetComponent<EnemyAI>().Initialize(enemyInfo.enemyData);
@@ -249,13 +153,20 @@ if (waveData.formationPrefab != null)
     }
     
     isSpawning = false;
-    
+
+    if (activeEnemies.Count == 0)
+    {
+        Debug.LogWarning("Wave ended instantly as no enemies were spawned.");
+        yield break;
+    }
+
     // انتظار انتهاء الموجة
     while (activeEnemies.Count > 0)
     {
         activeEnemies.RemoveAll(e => e == null);
         yield return null;
     }
+    Debug.Log($"Wave '{waveData.name}' COMPLETED!");
 }
 
     

@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8c943244d6eb95440a8c698787bbdd3b, type: 3}
-  m_Name: New Ship
+  m_Name: BlackS2
   m_EditorClassIdentifier: 
-  shipName: Defult
-  icon: {fileID: 6736066195151807975, guid: 82b8e2ea289101a4c8df3507b7d5b0c5, type: 3}
-  prefab: {fileID: 7864931430804818028, guid: dceb8ba9cbb4e6e42a9f08adbd652914, type: 3}
-  stats: {fileID: 11400000, guid: 980c67e83e41a7c49840261027e3c5a0, type: 2}
+  shipName: BlackS2
+  icon: {fileID: -4363419045544683001, guid: 3c5da5f39bd31f543a9e62d61e380ca7, type: 3}
+  prefab: {fileID: 7864931430804818028, guid: 419ef040d583e624890b9bb489cba38d, type: 3}
+  stats: {fileID: 11400000, guid: bdec8d513b67eb74c8083cc7b6b762e6, type: 2}
   defaultWeapon: 0
   upgradePaths: []

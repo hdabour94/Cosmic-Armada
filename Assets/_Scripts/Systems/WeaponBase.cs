@@ -1,4 +1,3 @@
-// START OF FILE WeaponBase.txt
 using UnityEngine;
 
 public abstract class WeaponBase : MonoBehaviour
@@ -8,22 +7,28 @@ public abstract class WeaponBase : MonoBehaviour
     {
         public GameObject projectilePrefab;
         public Transform firePoint;
+        [Tooltip("The maximum delay between shots. The actual delay will be random.")]
         public float fireRate = 0.5f;
         public int damage = 10;
         public float projectileSpeed = 15f;
     }
+    [Tooltip("The core settings for this weapon. Can be configured in the Inspector.")]
+    [SerializeField]
+    protected WeaponSettings settings;
 
-    // CHANGED: Made 'settings' public
-    public WeaponSettings settings; 
+    //public WeaponSettings settings;
     protected float nextFireTime;
     protected Transform target;
 
     protected virtual void Start()
     {
+        if (settings == null) settings = new WeaponSettings();
+
         if (settings.firePoint == null)
         {
             settings.firePoint = transform;
         }
+        // لا نحسب وقت الإطلاق هنا، بل في Update/Fire لأول مرة
     }
 
     protected virtual void Update()
@@ -31,8 +36,15 @@ public abstract class WeaponBase : MonoBehaviour
         if (CanFire() && Time.time >= nextFireTime)
         {
             Fire();
-            nextFireTime = Time.time + settings.fireRate;
+            // بعد إطلاق النار، احسب وقت الإطلاق التالي
+            CalculateNextFireTime();
         }
+    }
+
+    protected virtual void CalculateNextFireTime()
+    {
+        // السلوك الافتراضي: فاصل زمني ثابت
+        nextFireTime = Time.time + settings.fireRate;
     }
 
     protected abstract bool CanFire();

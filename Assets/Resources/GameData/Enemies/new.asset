@@ -19,6 +19,6 @@ MonoBehaviour:
   movementType: 1
   speed: 1
   projectilePrefab: {fileID: 8020040561039067568, guid: 14e4d75c941229540ab1cbf6609d0355, type: 3}
-  fireRate: 3
+  fireRate: 10
   projectileDamage: 10
   projectileSpeed: 10

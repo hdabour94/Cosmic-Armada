@@ -5,16 +5,40 @@ public class EnemyWeapon : WeaponBase
     [Header("Enemy Settings")]
     [SerializeField] private bool targetPlayer = true;
 
-    protected override void Start()
+     private bool isInitialized = false; // متغير أمان إضافي
+
+    // --- الدالة الجديدة ---
+    public void InitializeFromData(EnemyData_SO data)
     {
-        base.Start(); // Calls the base Start which initializes settings if null
-        if (targetPlayer)
+        if (data == null || data.projectilePrefab == null)
         {
-            SetTarget(LevelManager.Instance?.CurrentPlayerInstance?.transform);
+            isInitialized = false;
+            return;
         }
+
+        // بما أننا داخل EnemyWeapon، يمكننا الوصول إلى "settings" المحمي
+        settings = new WeaponSettings();
+
+        // املأ الإعدادات بالبيانات
+        settings.projectilePrefab = data.projectilePrefab;
+        settings.firePoint = this.transform;
+        settings.fireRate = data.fireRate;
+        settings.damage = data.projectileDamage;
+        settings.projectileSpeed = data.projectileSpeed;
+
+        if (targetPlayer && LevelManager.Instance?.CurrentPlayerInstance != null)
+        {
+            SetTarget(LevelManager.Instance.CurrentPlayerInstance.transform);
+        }
+        
+        isInitialized = true;
     }
 
-    protected override bool CanFire() => true;
+    protected override bool CanFire()
+    {
+        return isInitialized;
+    }
+    
 
     protected override void SetupProjectile(GameObject projectile)
     {

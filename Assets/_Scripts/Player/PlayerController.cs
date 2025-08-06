@@ -5,8 +5,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private ControlType controlType = ControlType.Keyboard;
     public enum ControlType { Keyboard, Mouse }
 
-    [SerializeField] private float moveSpeed = 8f;
-    
+    [SerializeField] private float moveSpeed = 8f;    
     private Rigidbody2D rb;
     private Camera mainCamera;
     private Vector2 keyboardInput;
@@ -18,6 +17,10 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         mainCamera = Camera.main;
         targetPosition = transform.position;
+    }
+    public void SetMoveSpeed(float newSpeed)
+    {
+        this.moveSpeed = newSpeed;
     }
 
     void Update()
