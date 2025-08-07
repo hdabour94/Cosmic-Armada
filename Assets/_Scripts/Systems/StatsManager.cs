@@ -28,7 +28,6 @@ public class StatsManager : MonoBehaviour
         {
             UIManager.Instance?.UpdateHealthUI(CurrentHP, BaseStats.maxHP);
 
-            uiController = GetComponentInChildren<EnemyUIController>();
             if (uiController != null)
             {
                 // قم بتهيئته وأعطه الهدف الذي يجب أن يتبعه (وهو هذا العدو)
@@ -44,6 +43,18 @@ public class StatsManager : MonoBehaviour
         }
          else
         {
+            uiController = GetComponentInChildren<EnemyUIController>();
+            if (uiController != null)
+            {
+                // قم بتهيئته وأعطه الهدف الذي يجب أن يتبعه (وهو هذا العدو)
+                uiController.Initialize(this.transform);
+
+                // قم بتحديث الواجهة بالقيم الأولية
+                uiController.UpdateHealth(CurrentHP, BaseStats.maxHP);
+                
+                // يمكنك إضافة منطق المستوى هنا إذا أردت
+                // uiController.UpdateLevel(BaseStats.level); 
+            }
             // --- ربط نظام المكافآت بحدث الموت ---
             OnDie.AddListener(GrantRewards);
             // ------------------------------------

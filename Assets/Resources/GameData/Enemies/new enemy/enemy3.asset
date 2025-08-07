@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d45bcec5ec20dd744881f9be1f088113, type: 3}
-  m_Name: new
-  m_EditorClassIdentifier: 
-  enemyName: neew
-  enemySprite: {fileID: 1344780287051860636, guid: d578be1435cd0a747a0e1c6ae78f1b45, type: 3}
-  enemyAnimator: {fileID: 9100000, guid: 7a80cd54cbc27dc4582646074c330246, type: 2}
-  stats: {fileID: 11400000, guid: fde8c95e97ff2fe4fbf47c156b7c629d, type: 2}
-  movementType: 0
-  speed: 1
+  m_Name: enemy3
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyData_SO
+  enemyName: enemy1
+  enemySprite: {fileID: 2302870733942359475, guid: bc8234be4887a5b4ea1a4990c8e21fd1, type: 3}
+  enemyAnimator: {fileID: 9100000, guid: b69e8de81a474c44aa0edf18316b9037, type: 2}
+  stats: {fileID: 11400000, guid: 6ca8a0cb01f501b4d902f0adfef2c183, type: 2}
+  movementType: 2
+  speed: 3
   projectilePrefab: {fileID: 8020040561039067568, guid: 14e4d75c941229540ab1cbf6609d0355, type: 3}
-  fireRate: 10
+  fireRate: 2
   projectileDamage: 10
   projectileSpeed: 10

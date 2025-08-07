@@ -26,7 +26,6 @@ public class EnemyUIController : MonoBehaviour
         // إذا تم تدمير الهدف، دمر نفسك أيضًا
         if (targetToFollow == null)
         {
-            Destroy(gameObject);
             return;
         }
 
