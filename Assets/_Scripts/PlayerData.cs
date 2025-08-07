@@ -1,14 +1,19 @@
-﻿// START OF FILE PlayerData.txt
-﻿[System.Serializable]
+﻿using System.Collections.Generic;
+
+[System.Serializable]
 public class PlayerData
 {
+    public int version;
     public int playerLevel;
     public int playerXP;
-    public int xpToNextLevel; // هذا الحقل كان ناقصًا
+    public int xpToNextLevel;
     public int coins;
-    public int version; // Added this field
     
-    // يمكن إضافة حقول إضافية هنا
-    public string[] unlockedShips;
-    public int[] upgradeLevels;
+    // --- هذا هو التعريف الوحيد الذي نحتاجه ---
+    public string currentShipID;
+    public List<string> unlockedShipIDs;
+    // ------------------------------------------
+    
+    // يمكن حذف upgradeLevels مؤقتًا إذا لم تكن تستخدمه
+    // public int[] upgradeLevels; 
 }

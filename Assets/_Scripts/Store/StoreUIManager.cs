@@ -19,7 +19,7 @@ public class StoreUIManager : MonoBehaviour
 
     void UpdateUI()
     {
-        coinsText.text = GameSessionManager.Instance.coins.ToString();
+        coinsText.text = GameSessionManager.Instance.Coins.ToString();
 
         if (coinsText == null)
         Debug.LogError("coinsText not assigned!");
@@ -52,7 +52,7 @@ public class StoreUIManager : MonoBehaviour
 
     void AttemptPurchase(StoreItem_SO item)
     {
-        if (GameSessionManager.Instance.coins >= item.price)
+        if (GameSessionManager.Instance.Coins >= item.price)
         {
             GameSessionManager.Instance.AddCoins(-item.price);
             // أضف للإنفنتوري بحسب النوع

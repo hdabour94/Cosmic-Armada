@@ -1,14 +1,26 @@
 using UnityEngine;
-
+using System.Collections.Generic;
+using System.Linq; // سنحتاج هذا لإحدى التحسينات
 
 public class GameSessionManager : MonoBehaviour
 {
     public static GameSessionManager Instance { get; private set; }
 
-    public int playerLevel = 1;
-    public int playerXP = 0;
-    public int xpToNextLevel = 100;
-    public int coins = 0;
+    // --- هذه هي المتغيرات "الحية" التي تستخدمها اللعبة ---
+    public int PlayerLevel { get; private set; } = 1;
+    public int PlayerXP { get; private set; } = 0;
+    public int XpToNextLevel { get; private set; } = 100;
+    public int Coins { get; private set; } = 0;
+
+    public string CurrentShipID { get; private set; }
+    public List<string> UnlockedShipIDs { get; private set; } = new List<string>();
+
+    // ----------------------------------------------------
+
+    [Header("Game Configuration")]
+    [Tooltip("اسحب كل ملفات ShipData_SO المتاحة في اللعبة هنا")]
+    [SerializeField] private List<ShipData_SO> allAvailableShips;
+    internal readonly IEnumerable<object> unlockedShipIDs;
 
     private void Awake()
     {
@@ -26,34 +38,62 @@ public class GameSessionManager : MonoBehaviour
 
     public void AddXP(int xpAmount)
     {
-        playerXP += xpAmount;
-        UIManager.Instance?.UpdateXPUI(playerXP, xpToNextLevel);
-        if (playerXP >= xpToNextLevel) LevelUp();
+        PlayerXP += xpAmount;
+        UIManager.Instance?.UpdateXPUI(PlayerXP, XpToNextLevel);
+        if (PlayerXP >= XpToNextLevel) LevelUp();
     }
 
     private void LevelUp()
     {
-        playerLevel++;
-        playerXP -= xpToNextLevel;
-        xpToNextLevel = (int)(xpToNextLevel * 1.5f);
-        UIManager.Instance?.UpdateLevelText(playerLevel);
-        UIManager.Instance?.UpdateXPUI(playerXP, xpToNextLevel);
+        PlayerLevel++;
+        PlayerXP -= XpToNextLevel;
+        XpToNextLevel = (int)(XpToNextLevel * 1.5f);
+        UIManager.Instance?.UpdateLevelText(PlayerLevel);
+        UIManager.Instance?.UpdateXPUI(PlayerXP, XpToNextLevel);
     }
 
     public void AddCoins(int amount)
     {
-        coins += amount;
-        UIManager.Instance?.UpdateCoinText(coins);
+        Coins += amount;
+        UIManager.Instance?.UpdateCoinText(Coins);
     }
 
+    public void UnlockShip(string shipID)
+    {
+        if (!UnlockedShipIDs.Contains(shipID))
+        {
+            UnlockedShipIDs.Add(shipID);
+            Debug.Log($"Ship Unlocked: {shipID}");
+        }
+    }
+
+    public void SetCurrentShip(string shipID)
+    {
+        if (UnlockedShipIDs.Contains(shipID))
+        {
+            CurrentShipID = shipID;
+            GameDataHolder.Instance.SetSelectedShip(GetShipDataByID(shipID));
+            Debug.Log($"Current ship set to: {shipID}");
+        }
+    }
+
+    public ShipData_SO GetShipDataByID(string shipID)
+    {
+        // استخدام FirstOrDefault أكثر أمانًا من Find
+        return allAvailableShips.FirstOrDefault(ship => ship.name == shipID);
+    }
+
+    // --- دوال الحفظ والتحميل المحدثة ---
     public void SaveGame()
     {
         PlayerData data = new PlayerData
         {
-            playerLevel = playerLevel,
-            playerXP = playerXP,
-            xpToNextLevel = xpToNextLevel,
-            coins = coins
+            playerLevel = this.PlayerLevel,
+            playerXP = this.PlayerXP,
+            xpToNextLevel = this.XpToNextLevel,
+            coins = this.Coins,
+            currentShipID = this.CurrentShipID,
+            unlockedShipIDs = this.UnlockedShipIDs
         };
         SaveSystem.SavePlayer(data);
     }
@@ -61,14 +101,34 @@ public class GameSessionManager : MonoBehaviour
     public void LoadGame()
     {
         PlayerData data = SaveSystem.LoadPlayer();
-        playerLevel = data.playerLevel;
-        playerXP = data.playerXP;
-        xpToNextLevel = data.xpToNextLevel;
-        coins = data.coins;
+        
+        this.PlayerLevel = data.playerLevel > 0 ? data.playerLevel : 1;
+        this.PlayerXP = data.playerXP;
+        this.XpToNextLevel = data.xpToNextLevel > 0 ? data.xpToNextLevel : 100;
+        this.Coins = data.coins;
 
-        UIManager.Instance?.UpdateCoinText(coins);
-        UIManager.Instance?.UpdateLevelText(playerLevel);
-        UIManager.Instance?.UpdateXPUI(playerXP, xpToNextLevel);
+        this.UnlockedShipIDs = data.unlockedShipIDs ?? new List<string>();
+        
+        // تأكد من أن اللاعب يبدأ بمركبة افتراضية على الأقل
+        if (this.UnlockedShipIDs.Count == 0 && allAvailableShips.Count > 0)
+        {
+            UnlockShip(allAvailableShips[0].name); // افترض أن أول مركبة هي الافتراضية
+        }
+
+        this.CurrentShipID = data.currentShipID;
+        if (string.IsNullOrEmpty(this.CurrentShipID) || !this.UnlockedShipIDs.Contains(this.CurrentShipID))
+        {
+            this.CurrentShipID = this.UnlockedShipIDs.Count > 0 ? this.UnlockedShipIDs[0] : "";
+        }
+        
+        // قم بتعيين المركبة الحالية في GameDataHolder عند بدء الجلسة
+        if (!string.IsNullOrEmpty(this.CurrentShipID))
+        {
+            SetCurrentShip(this.CurrentShipID);
+        }
+
+        // قم بتحديث الواجهة (إذا كانت موجودة)
+        // UIManager.Instance?.UpdateAllUI(...);
     }
 
     private void OnApplicationQuit() => SaveGame();

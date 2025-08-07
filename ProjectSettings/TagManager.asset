@@ -16,8 +16,8 @@ TagManager:
   - UI
   - Enemy
   - EnemyProjectiles
-  - 
-  - 
+  - Player
+  - dun
   - 
   - 
   - 
@@ -43,6 +43,15 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: ui
+    uniqueID: 2666902375
+    locked: 0
+  - name: player
+    uniqueID: 898449147
+    locked: 0
+  - name: dun
+    uniqueID: 3780124113
     locked: 0
   m_RenderingLayers:
   - Default

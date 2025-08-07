@@ -2,6 +2,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
@@ -206,8 +207,20 @@ private IEnumerator SpawnAndWaitForWaveToEnd(WaveData_SO waveData)
     public void EndLevel(bool victory)
     {
         Debug.Log(victory ? "VICTORY!" : "DEFEAT!");
-        Time.timeScale = 0f;
-        StopAllCoroutines();
-         UIManager.Instance?.ShowLevelComplete(victory); // يمكنك تفعيل هذا لإظهار شاشة الفوز/الخسارة
+    Time.timeScale = 0f; // أوقف اللعبة مؤقتًا
+    StopAllCoroutines();
+    
+    if (victory)
+    {
+        // بدلاً من عرض قائمة فقط، قم بالعودة إلى العالم المفتوح
+        // يمكنك إظهار شاشة المكافآت أولاً ثم زر "Return to Hub"
+        // للتبسيط الآن، سنعود مباشرة.
+        SceneManager.LoadScene("GalaxyHub_Scene"); // <<<--- التعديل الرئيسي
+        Time.timeScale = 1f; // لا تنسَ إعادة الوقت إلى طبيعته
+    }
+    else
+    {
+        UIManager.Instance?.ShowLevelComplete(false); // أظهر شاشة الهزيمة
+    }
     }
 }

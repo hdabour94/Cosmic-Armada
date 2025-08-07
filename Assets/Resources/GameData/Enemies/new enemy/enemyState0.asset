@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c363a719384edc84f8d30eb743cdd4b6, type: 3}
   m_Name: enemyState0
   m_EditorClassIdentifier: Assembly-CSharp::CharacterStats_SO
-  maxHP: 1
-  strength: 1
+  maxHP: 10
+  strength: 10
   shield: 5
   speed: 5
   fireRate: 0.5
